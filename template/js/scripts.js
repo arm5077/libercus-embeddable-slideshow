@@ -1,3 +1,6 @@
+// Constants
+slideshowPadding = 10;
+captionMargin = 10;
 
 $(document).ready(function(){
 	images = [];
@@ -13,7 +16,7 @@ $(document).ready(function(){
 				images.push(insertedImage);
 			});
 			
-			activateImage(images[4]);
+			activateImage(images[6]);
 			
 		} else {
 			console.log("Error: " + json.status.description);
@@ -24,6 +27,37 @@ $(document).ready(function(){
 
 function activateImage(image, caption){
 	$(".slideshow img").removeClass("visible");
-	$(image).addClass("visible");
+	image.addClass("visible");
 	$(".caption").text(image.attr("alt"));
+	resizeImage(image);
+	$(window).on("resize", function(){ resizeImage(image) });
+}
+
+function resizeImage(image) {
+	// If image is horizontal
+	if( image.width() / image.height() > 1 ){	
+		image.width( $(window).width() - ( 2 * slideshowPadding ) );
+		image.css("height", "auto");
+	}
+	// If image is vertical
+	else {
+		image.height( $(window).height() - ( 2 * slideshowPadding ) );
+		image.css("width", "auto");
+	}
+	
+	// Set caption to width of picture (maybe a dumb idea)
+	$(".caption").width( image.width() );
+	
+	if( image.height() + $(".caption").height() > $(window).height() ){
+		image.css("width", "auto");
+		for( i=1; i<=3; i++ ){
+			image.height( $(window).height() - $(".caption").height() - captionMargin - (2 * slideshowPadding) );
+			$(".caption").width( image.width() );
+		}
+	}
+	
+	// Center image
+	console.log(($(window).height() - image.height() - $(".caption").height() - captionMargin) / 2);
+	image.css("margin-top", ($(window).height() - image.height() - $(".caption").height() - captionMargin) / 2 + "px");
+	
 }

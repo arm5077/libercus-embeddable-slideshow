@@ -53,12 +53,19 @@ if( $url == "" ) {
 	));
 }
 else {
+	// Grab HTML content from URL
 	$content = getURL($url);
+	
+	// Split content into array, separating each slideshow image into own index
 	$content = explode('<div class="slideshowImage">', $content);
+	
+	// Get rid of the first array item since it doesn't contain slideshow content
 	$content = array_splice($content, 1);
 	
+	// Initialize the array we'll use to export image data through JSON
 	$images = Array();
 	
+	// Build export array
 	foreach( $content as $image ){
 		$images[] = Array(
 			"url" => scrape($image, '<img src="', '" credit='),
@@ -66,6 +73,8 @@ else {
 			"credit" => scrape($image, '<div class="credit">', '</div>')
 			);
 	}
+	
+	// Output JSON
 	echo json_encode( Array(
 		"status" => Array(
 			"code" => "200",

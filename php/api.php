@@ -66,7 +66,13 @@ else {
 			"credit" => scrape($image, '<div class="credit">', '</div>')
 			);
 	}
-	echo json_encode($images);
+	echo json_encode( Array(
+		"status" => Array(
+			"code" => "200",
+			"description" => "We're good. Yayyyyyy!"
+		),
+		"results" => $images
+	));
 }
 
 ?>

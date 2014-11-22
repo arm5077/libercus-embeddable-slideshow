@@ -12,7 +12,8 @@ $(document).ready(function(){
 			$.each(json.results, function(i, image){
 				insertedImage = $("<img>").appendTo(".slideshow .image")
 					.attr("src", "http://www.post-gazette.com" + image.url)
-					.attr("alt", image.caption);
+					.attr("alt", image.caption)
+					.attr("credit", image.credit);
 				images.push(insertedImage);
 			});
 			
@@ -21,12 +22,13 @@ $(document).ready(function(){
 				activateImage(images[0]);
 				
 				$(".nav").click(function(){
-					if( $(this).hasClass("right") && index < images.length ){
+					if( $(this).hasClass("right") && index < images.length - 1 ){
 						index++;
 					}
-					else if( index > 0 ){
+					else if( $(this).hasClass("left") && index > 0 ){
 						index--;
 					}
+					console.log(index);
 					activateImage(images[index]);
 				});
 			});	
@@ -41,7 +43,7 @@ $(document).ready(function(){
 function activateImage(image, caption){
 	$(".slideshow img").removeClass("visible");
 	image.addClass("visible");
-	$(".caption").text(image.attr("alt"));
+	$(".caption").html(image.attr("alt") + "<div class='credit'>" + image.attr("credit") + "</div>");
 	resizeImage(image);
 	$(window).on("resize", function(){ resizeImage(image) });
 }
@@ -55,30 +57,22 @@ function resizeImage(image) {
 		}
 		// If image is vertical
 		else {
-			image.height( $(window).height() - ( 2 * slideshowPadding ) );
+			image.height( $(window).height() - ( 2 * slideshowPadding ) - $(".caption").height() - captionMargin );
 			image.css("width", "auto");
 		}
 		
-		// Set caption to width of picture (maybe a dumb idea)
-		$(".caption").width( image.width() );
-		$(".caption").css("margin-top", captionMargin + "px");
+		// Realign caption with bottom of the thing
+		$(".caption").css("bottom", slideshowPadding + "px");
 		
-		if( image.height() + $(".caption").height() > $(window).height() ){
+		if( image.height() + $(".caption").height() + captionMargin > $(window).height() ){
 			image.css("width", "auto");
 			for( i=1; i<=3; i++ ){
 				image.height( $(window).height() - $(".caption").height() - captionMargin - (2 * slideshowPadding) );
-				$(".caption").width( image.width() );
 			}
 		}
-		
 		// Center image
 		image.css("margin-top", ($(window).height() - image.height() - $(".caption").height() - captionMargin) / 2 + "px");
 		
-		$(".nav").height( image.height() );
-		$(".nav").width( image.width() / 2 );
-		$(".nav").css( "line-height", image.height() + "px" );
-		$(".nav.left").css({ "top": image.offset().top + "px", "left": image.offset().left + "px" })
-		console.log($(".nav.right").width());
-		$(".nav.right").css({ "top": image.offset().top + "px", "right": $(window).width() - image.offset().left - image.width() + "px" })
-		
+		// Center forward-back buttons vertically
+		$(".nav").css( "line-height", $(window).height() + "px" );
 }

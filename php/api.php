@@ -41,47 +41,47 @@ function scrape($string, $startString, $endString) {
 	return substr($string, $start, $end-$start); 
 }
 
+function slideshowToJSON($url){
 
-$url = $_GET["url"];
-
-if( $url == "" ) {
-	echo json_encode( Array(
-		"status" => Array(
-			"code" => "404", 
-			"description" => "No URL supplied."
-		)
-	));
-}
-else {
-	// Grab HTML content from URL
-	$content = getURL($url);
-	
-	// Split content into array, separating each slideshow image into own index
-	$content = explode('<div class="slideshowImage">', $content);
-	
-	// Get rid of the first array item since it doesn't contain slideshow content
-	$content = array_splice($content, 1);
-	
-	// Initialize the array we'll use to export image data through JSON
-	$images = Array();
-	
-	// Build export array
-	foreach( $content as $image ){
-		$images[] = Array(
-			"url" => scrape($image, '<img src="', '" credit='),
-			"caption" => scrape($image, 'caption="', '" />'),
-			"credit" => scrape($image, '<div class="credit">', '</div>')
-			);
+	if( $url == "" ) {
+		return json_encode( Array(
+			"status" => Array(
+				"code" => "404", 
+				"description" => "No URL supplied."
+			)
+		));
 	}
-	
-	// Output JSON
-	echo json_encode( Array(
-		"status" => Array(
-			"code" => "200",
-			"description" => "We're good. Yayyyyyy!"
-		),
-		"results" => $images
-	));
+	else {
+		// Grab HTML content from URL
+		$content = getURL($url);
+		
+		// Split content into array, separating each slideshow image into own index
+		$content = explode('<div class="slideshowImage">', $content);
+		
+		// Get rid of the first array item since it doesn't contain slideshow content
+		$content = array_splice($content, 1);
+		
+		// Initialize the array we'll use to export image data through JSON
+		$images = Array();
+		
+		// Build export array
+		foreach( $content as $image ){
+			$images[] = Array(
+				"url" => scrape($image, '<img src="', '" credit='),
+				"caption" => scrape($image, 'caption="', '" />'),
+				"credit" => scrape($image, '<div class="credit">', '</div>')
+				);
+		}
+		
+		// Output JSON
+		return json_encode( Array(
+			"status" => Array(
+				"code" => "200",
+				"description" => "We're good. Yayyyyyy!"
+			),
+			"results" => $images
+		));
+	}
 }
 
 ?>

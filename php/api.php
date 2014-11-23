@@ -55,6 +55,16 @@ function slideshowToJSON($url){
 		// Grab HTML content from URL
 		$content = getURL($url);
 		
+		// Validate that we're looking at a Libercus gallery page
+		if( stripos($content, '<div class="slideshowImage">') == FALSE ) {
+			return json_encode( Array(
+				"status" => Array(
+					"code" => "404",
+					"description" => "That URL doesn't point to a Libercus gallery page."
+				)
+			));
+		}
+		
 		// Split content into array, separating each slideshow image into own index
 		$content = explode('<div class="slideshowImage">', $content);
 		

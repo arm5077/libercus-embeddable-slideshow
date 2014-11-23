@@ -14,7 +14,11 @@
 		};
 	});
 	
-	app.controller("FormController", [ "$http", "sharedURL", function($http, sharedURL){
+	app.controller("FormController", [ "$http", "$timeout", "sharedURL", function($http, $timeout, sharedURL){
+		
+		this.success = true;
+		FormControllerObject = this;
+		
 		this.submit = function(url){
 			$http({
 				url: "php/clone-slideshow.php", 
@@ -22,7 +26,18 @@
 				params: { "url": url },
 				headers: {'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'}
 			}).success(function(data){ 
-				sharedURL.setURL(data.url);
+				if(data.status.code == "200"){
+					FormControllerObject.success = true;
+					sharedURL.setURL(data.url);
+				}
+				else {
+					//sharedURL.setURL(null);
+					var FormController = this;
+				
+						FormControllerObject.success = false;
+						console.log(FormController.success);
+				
+				}
 			});
 		};
 	} ]);

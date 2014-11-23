@@ -23,18 +23,23 @@ function recurse_copy($old, $new) {
 } 
 
 $json = slideshowToJSON($_GET["url"]);
+$json_decoded = json_decode($json, TRUE);
 
-// Grab unique slideshow name
-$name = substr($_GET["url"], strrpos($_GET["url"], "/") + 1);
-
-// Copy template site over to new directory
-recurse_copy("../template", "../slideshows/" . $name);
-
-// Replace JSON in new directory
-$json_handle = fopen("../slideshows/" . $name . "/data/images.json", "w+");
-fwrite($json_handle, $json);
-fclose($json_handle);
-
-echo json_encode( Array( "url" => "http://" . $_SERVER[ 'HTTP_HOST' ] . substr( realpath("../slideshows/" . $name), strlen( $_SERVER[ 'DOCUMENT_ROOT' ] ) ) ) );
-
+if( $json_decoded["status"]["code"] != "200") {
+	echo json_encode( Array("status" => $json_decoded["status"]) );
+}
+else {
+	// Grab unique slideshow name
+	$name = substr($_GET["url"], strrpos($_GET["url"], "/") + 1);
+	
+	// Copy template site over to new directory
+	recurse_copy("../template", "../slideshows/" . $name);
+	
+	// Replace JSON in new directory
+	$json_handle = fopen("../slideshows/" . $name . "/data/images.json", "w+");
+	fwrite($json_handle, $json);
+	fclose($json_handle);
+	
+	echo json_encode( Array( "status" => $json_decoded["status"], "url" => "http://" . $_SERVER[ 'HTTP_HOST' ] . substr( realpath("../slideshows/" . $name), strlen( $_SERVER[ 'DOCUMENT_ROOT' ] ) ) ) );
+}
 ?>

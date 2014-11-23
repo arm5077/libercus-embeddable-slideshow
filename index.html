@@ -40,7 +40,27 @@
 		</form>
 	
 		<div class = "well" ng-controller = "iframeController as iframeCtrl" ng-hide="iframeCtrl.iframe.url() === null">
-			<iframe width = "{{ iframeCtrl.iframe.width }}" height = "{{ iframeCtrl.iframe.height }}" ng-src="{{iframeCtrl.iframe.url()}}"></iframe>
+			<form class = "">
+				<div class="form-group col-md-3">
+					<label for="width">Width <small>(can use %)</small></label>
+					<input class="form-control" id="width" name="width" ng-model = "iframeCtrl.iframe.width" ng-change = "iframeCtrl.iframe.embed = iframeCtrl.iframe.getEmbed()" novalidate>
+				</div>
+				<div class="form-group col-md-3">
+					<label for="height">Height</label>
+					<input class="form-control" id="height" name="height" ng-model = "iframeCtrl.iframe.height" ng-change = "iframeCtrl.iframe.embed = iframeCtrl.iframe.getEmbed()" novalidate>
+				</div>
+				
+				<div class="form-group col-md-6">
+					<label for="embed">Copy this embed code</label>
+					<input style="" class="form-control" id="embed" name="embed" ng-init = "iframeCtrl.iframe.embed = iframeCtrl.iframe.getEmbed();" value = "{{iframeCtrl.iframe.getEmbed()}}" novalidate>
+				</div>
+			</form>
+			<Div class="row">
+			<div style="margin-top:20px" class="col-xs-12">
+				<h3>Preview</h3>
+				<iframe width = "{{ iframeCtrl.iframe.width }}" height = "{{ iframeCtrl.iframe.height }}" ng-src="{{iframeCtrl.iframe.url()}}" style="border:1px solid #ccc" ></iframe>
+			</div>
+			</div>
 		</div>
 		
 		

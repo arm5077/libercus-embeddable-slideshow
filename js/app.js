@@ -15,7 +15,6 @@
 	});
 	
 	app.controller("FormController", [ "$http", "$timeout", "sharedURL", function($http, $timeout, sharedURL){
-		
 		this.success = true;
 		FormControllerObject = this;
 		
@@ -31,12 +30,8 @@
 					sharedURL.setURL(data.url);
 				}
 				else {
-					//sharedURL.setURL(null);
-					var FormController = this;
-				
-						FormControllerObject.success = false;
-						console.log(FormController.success);
-				
+					sharedURL.setURL(null);
+					FormControllerObject.success = false;
 				}
 			});
 		};
@@ -45,8 +40,11 @@
 	app.controller("iframeController", [ "sharedURL", function(sharedURL){
 		this.iframe  = {};
 		this.iframe.height = "400";
-		this.iframe.width = "100%";
+		this.iframe.width = "600";
 		this.iframe.url = sharedURL.getURL;
+		var iframeController = this;
+		this.iframe.getEmbed = function(){ return "<iframe src='" + iframeController.iframe.url() + "' width='" + iframeController.iframe.width + "' height='" + iframeController.iframe.height + "' style='border:1px solid #ccc'></iframe>"; };
+	
 	}]);
 	
 })();

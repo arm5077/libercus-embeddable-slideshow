@@ -35,4 +35,6 @@ $json_handle = fopen("../slideshows/" . $name . "/data/images.json", "w+");
 fwrite($json_handle, $json);
 fclose($json_handle);
 
+echo json_encode( Array( "url" => "http://" . $_SERVER[ 'HTTP_HOST' ] . substr( realpath("../slideshows/" . $name), strlen( $_SERVER[ 'DOCUMENT_ROOT' ] ) ) ) );
+
 ?>

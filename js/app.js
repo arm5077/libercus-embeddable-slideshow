@@ -47,4 +47,32 @@
 	
 	}]);
 	
+	app.directive('urlForm', function(){
+		return {
+			restrict: 'E',
+			templateUrl: "html/url-form.html"
+		};
+	});	
+
+	app.directive('iframePreview', function(){
+		return {
+			restrict: 'E',
+			templateUrl: "html/iframe-preview.html"
+		};
+	});
+	
+	app.directive('iframeControls', function(){
+		return {
+			restrict: 'E',
+			templateUrl: "html/iframe-controls.html"
+		};
+	});
+	
+	app.directive('appHeader', function(){
+		return {
+			restrict: 'E',
+			templateUrl: "html/app-header.html"
+		};
+	});
+	
 })();

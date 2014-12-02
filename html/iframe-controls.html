@@ -1,0 +1,15 @@
+<form>
+	<div class="form-group col-md-3">
+		<label for="width">Width <small>(can use %)</small></label>
+		<input class="form-control" id="width" name="width" ng-model = "iframeCtrl.iframe.width" ng-change = "iframeCtrl.iframe.embed = iframeCtrl.iframe.getEmbed()" novalidate>
+	</div>
+	<div class="form-group col-md-3">
+		<label for="height">Height</label>
+		<input class="form-control" id="height" name="height" ng-model = "iframeCtrl.iframe.height" ng-change = "iframeCtrl.iframe.embed = iframeCtrl.iframe.getEmbed()" novalidate>
+	</div>
+	
+	<div class="form-group col-md-6">
+		<label for="embed">Copy this embed code</label>
+		<input style="" class="form-control" id="embed" name="embed" ng-init = "iframeCtrl.iframe.embed = iframeCtrl.iframe.getEmbed();" value = "{{iframeCtrl.iframe.getEmbed()}}" novalidate>
+	</div>
+</form>

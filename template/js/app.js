@@ -1,5 +1,6 @@
 slideshowPadding = 10;
 captionMargin = 10;
+titleMargin = 10;
 
 (function(){
 	
@@ -37,7 +38,7 @@ captionMargin = 10;
 		};
 	});
 	
-	app.controller("SlideshowController", [ "$http", function($http){
+	app.controller("SlideshowController", [ "$http", "resize", function($http, resize){
 		SlideshowControllerObject = this;
 		this.slideshowIndex = 0;
 		
@@ -52,10 +53,11 @@ captionMargin = 10;
 		});
 		
 		this.changeImage = function(direction){
-			//if( (SlideshowControllerObject.slideshowIndex + direction) > 0 && (SlideshowControllerObject.slideshowIndex + direction) <= 
-			SlideshowControllerObject.slideshowIndex += direction;
+			if( (SlideshowControllerObject.slideshowIndex + direction) >= 0 && (SlideshowControllerObject.slideshowIndex + direction) < SlideshowControllerObject.images.length) {
+				SlideshowControllerObject.slideshowIndex += direction;
+				resize.resizeImage($("img"));
+			}
 		}
-	
 	} ]);
 	
 	app.directive("orient", ["resize", function(resize){

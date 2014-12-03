@@ -4,8 +4,6 @@
 <head>
 	<title>Pittsburgh Post-Gazette: Slideshow</title>
 	<script src="js/angular.js"></script>
-	<script src="js/imagesloaded.pkgd.min.js"></script>
-	<script src="js/angular-images-loaded.js"></script>
 	  
 	<script src="js/app.js"></script>
 	
@@ -20,16 +18,21 @@
 	
 	<div class = "slideshow" ng-controller="SlideshowController as slideshowCtrl">
 		<div class = "image" >
-			<img ng-repeat="image in slideshowCtrl.images" ng-src="{{'http://www.post-gazette.com' + image.url}}" ng-show="slideshowCtrl.slideshowIndex	== $index" orient />
+			<img ng-src="{{'http://www.post-gazette.com' + slideshowCtrl.images[slideshowCtrl.slideshowIndex].url}}" orient />
+			<!-- This just preloads all the images into the cache so they transition quicker -->
+			<img ng-repeat="image in slideshowCtrl.images" ng-src="{{'http://www.post-gazette.com' + image.url}}" ng-hide="true"/>
 		</div>
 		
-		<div class= "nav left" ng-click="slideshowCtrl.changeImage(-1)">
+		<div class= "nav left" ng-click="slideshowCtrl.changeImage(-1)" ng-hide="slideshowCtrl.slideshowIndex == 0">
 			<i class="fa fa-arrow-circle-left"></i>
 		</div>
-		<div class= "nav right" ng-click="slideshowCtrl.changeImage(1)">
+		<div class= "nav right" ng-click="slideshowCtrl.changeImage(1)" ng-hide="slideshowCtrl.slideshowIndex == slideshowCtrl.images.length - 1">
 			<i class="fa fa-arrow-circle-right"></i>
 		</div>
-		<div class = "caption"></div>
+		<div class = "caption">
+			{{slideshowCtrl.images[slideshowCtrl.slideshowIndex].caption}}
+			<div class = "credit">{{slideshowCtrl.images[slideshowCtrl.slideshowIndex].credit}}</div>
+		</div>
 	</div>
 	
 </body>

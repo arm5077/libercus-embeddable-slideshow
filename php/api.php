@@ -65,6 +65,9 @@ function slideshowToJSON($url){
 			));
 		}
 		
+		// Grab title
+		$title = scrape($content, '<div class="slideshowHeadline">', '</div>');
+		
 		// Split content into array, separating each slideshow image into own index
 		$content = explode('<div class="slideshowImage">', $content);
 		
@@ -89,7 +92,8 @@ function slideshowToJSON($url){
 				"code" => "200",
 				"description" => "We're good. Yayyyyyy!"
 			),
-			"results" => $images
+			"results" => $images,
+			"title" => $title
 		));
 	}
 }

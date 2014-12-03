@@ -1,3 +1,5 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,700);
+
 html, body {
 	margin:0;
 	padding:0;
@@ -12,7 +14,30 @@ html, body {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+	font-family: "Roboto Condensed", sans-serif;
 }
+
+.title {
+	color: rgba(0,0,0,.75);
+	width: 100%;
+	position: absolute;
+	top: 0;
+	padding: 10px 0px;
+	border-bottom:1px solid lightgray;
+	border-top:1px solid lightgray;
+	
+}
+
+	.title h1 {
+		text-align:left;
+		width:100%;
+		margin:0px;
+		margin-left:5%;
+		padding:0;
+		line-height:1em;
+		font-family: "Roboto Condensed", sans-serif;
+		font-size:12pt;
+	}
 
 .slideshow {
 	width:100%;

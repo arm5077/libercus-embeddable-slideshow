@@ -16,22 +16,24 @@ titleMargin = 10;
 				}
 				// If image is vertical
 				else {
-					image.height( $(window).height() - ( 2 * slideshowPadding ) - $(".caption").height() - captionMargin );
+					image.height( $(window).height() - ( 2 * slideshowPadding ) - $(".title").outerHeight(true) - titleMargin - $(".caption").height() - captionMargin );
 					image.css("width", "auto");
 				}
 				
 				// Realign caption with bottom of the thing
 				$(".caption").css("bottom", slideshowPadding + "px");
 				
-				if( image.height() + $(".caption").height() + captionMargin > $(window).height() ){
+				// Realign title with top of the thing
+				$(".title").css("top", slideshowPadding + "px");
+				
+				if( image.height() + $(".title").height() + titleMargin + $(".caption").height() + captionMargin > $(window).height() ){
 					image.css("width", "auto");
 					for( i=1; i<=3; i++ ){
-						image.height( $(window).height() - $(".caption").height() - captionMargin - (2 * slideshowPadding) );
+						image.height( $(window).height() - $(".title").outerHeight(true) - titleMargin - $(".caption").height() - captionMargin - (2 * slideshowPadding) );
 					}
 				}
 				// Center image
-				image.css("margin-top", ($(window).height() - image.height() - $(".caption").height() - captionMargin) / 2 + "px");
-				
+				image.css("margin-top", $(".title").outerHeight(true) + titleMargin + ($(window).height() - image.height() - $(".title").outerHeight(true) - titleMargin - $(".caption").height() - captionMargin) / 2 + "px");
 				// Center forward-back buttons vertically
 				$(".nav").css( "line-height", $(window).height() + "px" );
 			}
@@ -49,6 +51,7 @@ titleMargin = 10;
 		}).success(function(data){ 
 			if(data.status.code == "200"){
 				SlideshowControllerObject.images = data.results;
+				SlideshowControllerObject.title = data.title;
 			}
 		});
 		

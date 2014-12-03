@@ -17,7 +17,10 @@
 <body ng-app="slideshow">
 	
 	<div class = "slideshow" ng-controller="SlideshowController as slideshowCtrl">
-		<div class = "image" >
+		<div class = "title">
+			<h1>{{slideshowCtrl.title}}</h1>
+		</div>
+		<div class = "image">
 			<img ng-src="{{'http://www.post-gazette.com' + slideshowCtrl.images[slideshowCtrl.slideshowIndex].url}}" orient />
 			<!-- This just preloads all the images into the cache so they transition quicker -->
 			<img ng-repeat="image in slideshowCtrl.images" ng-src="{{'http://www.post-gazette.com' + image.url}}" ng-hide="true"/>

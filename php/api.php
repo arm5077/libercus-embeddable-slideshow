@@ -65,6 +65,9 @@ function slideshowToJSON($url){
 			));
 		}
 		
+		// Store gallery URL
+		$old_url = $url;
+		
 		// Grab title
 		$title = scrape($content, '<div class="slideshowHeadline">', '</div>');
 		
@@ -93,7 +96,8 @@ function slideshowToJSON($url){
 				"description" => "We're good. Yayyyyyy!"
 			),
 			"results" => $images,
-			"title" => $title
+			"title" => $title,
+			"old_url" => $url
 		));
 	}
 }

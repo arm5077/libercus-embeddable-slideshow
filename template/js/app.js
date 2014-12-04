@@ -4,7 +4,7 @@ titleMargin = 10;
 
 (function(){
 	
-	var app = angular.module("slideshow", []);	
+	var app = angular.module("slideshow", ['ngSanitize']);	
 	
 	app.service('resize', function(){
 		return {
@@ -40,10 +40,10 @@ titleMargin = 10;
 		};
 	});
 	
-	app.controller("SlideshowController", [ "$http", "resize", function($http, resize){
-		SlideshowControllerObject = this;
+	app.controller("SlideshowController", [ "$scope", "$http", "resize", function($scope, $http, resize){
 		this.slideshowIndex = 0;
-		
+		this.loaderOn = true;
+		SlideshowControllerObject = this;
 		$http({
 			url: "data/images.json", 
 			method: "GET",
@@ -52,6 +52,7 @@ titleMargin = 10;
 			if(data.status.code == "200"){
 				SlideshowControllerObject.images = data.results;
 				SlideshowControllerObject.title = data.title;
+				SlideshowControllerObject.url = data.old_url;
 			}
 		});
 		
@@ -61,13 +62,25 @@ titleMargin = 10;
 				resize.resizeImage($("img"));
 			}
 		}
+		
+		this.turnOffLoader = function(){
+			$scope.$apply(function(){
+				SlideshowControllerObject.loaderOn = false;
+			});
+		}
+		
 	} ]);
 	
 	app.directive("orient", ["resize", function(resize){
 		return {
+			scope: {
+				methodToCall: '&method'
+			},
 			link: function(scope, element, attrs){
 				element.bind("load", function(e){
 					resize.resizeImage($(element));
+					var func = scope.methodToCall();
+					func();
 				});
 				
 				angular.element(window).bind("resize", function(e){

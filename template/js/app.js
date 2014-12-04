@@ -24,7 +24,7 @@ titleMargin = 10;
 				$(".caption").css("bottom", slideshowPadding + "px");
 				
 				// Realign title with top of the thing
-				$(".title").css("top", slideshowPadding + "px");
+				//$(".title").css("top", slideshowPadding + "px");
 				
 				if( image.height() + $(".title").height() + titleMargin + $(".caption").height() + captionMargin > $(window).height() ){
 					image.css("width", "auto");

@@ -42,7 +42,6 @@ html, body {
 	top: 0;
 	padding: 10px 0px;
 	border-bottom:1px solid lightgray;
-	border-top:1px solid lightgray;
 	z-index:2;
 	height:17px;
 	
@@ -80,9 +79,14 @@ html, body {
 		float:right;
 		text-align:right;
 		margin-right:5%;
-		font-size
+		width:100px;
 	}
 	
+		.title .social h1 {
+			margin-right:10px;
+			display:inline-block;
+		}
+		
 		.title .social a {
 			color:inherit;
 			margin-right:10px;

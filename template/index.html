@@ -3,24 +3,46 @@
 
 <head>
 	<title>Pittsburgh Post-Gazette: Slideshow</title>
+	<script src="js/angular.js"></script>
+	<script src="js/angular-sanitize.min.js"></script>
+	  
+	<script src="js/app.js"></script>
+	
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/3.0.4/jquery.imagesloaded.min.js"></script>
-	<script src="js/scripts.js"></script>
+	
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 	<link href='css/styles.css' rel='stylesheet' type='text/css'>
 </head>
 
-<body>
+<body ng-app="slideshow">
 	
-	<div class = "slideshow">
-		<div class = "image"></div>
-		<div class= "nav left">
+	<div class = "slideshow" ng-controller="SlideshowController as slideshowCtrl">
+		<div class = "loader" ng-show="slideshowCtrl.loaderOn">
+			<i class="fa fa-cog fa-spin"></i>
+		</div>
+		
+		<div class = "title">
+			<h1><a href="{{slideshowCtrl.url}}" target="_blank">{{slideshowCtrl.title}}  <i class="fa fa-external-link"></i></a></h1>
+			<div class = "social">
+				<h1>[{{slideshowCtrl.slideshowIndex +1}}/{{slideshowCtrl.images.length}}]</h1>
+				<a href="{{'https://twitter.com/intent/tweet?original_referer=' + slideshowCtrl.url + '&text=So this slideshow from @PittsburghPG is pretty good.:&:tw_p=tweetbutton&url=' + slideshowCtrl.url}}" target="_blank"><i class="fa fa-twitter"></i></a>
+				<a href="{{'https://www.facebook.com/sharer/sharer.php?u=' + slideshowCtrl.url}}" target="_blank"><i class="fa fa-facebook"></i></a>
+			</div>
+		</div>
+		<div class = "image">
+			<img ng-src="{{'http://www.post-gazette.com' + slideshowCtrl.images[slideshowCtrl.slideshowIndex].url}}" orient data-method="slideshowCtrl.turnOffLoader" />
+			<!-- This just preloads all the images into the cache so they transition quicker -->
+			<img ng-repeat="image in slideshowCtrl.images" ng-src="{{'http://www.post-gazette.com' + image.url}}" ng-hide="true"/>
+		</div>
+		
+		<div class= "nav left" ng-click="slideshowCtrl.changeImage(-1)" ng-hide="slideshowCtrl.slideshowIndex == 0">
 			<i class="fa fa-arrow-circle-left"></i>
 		</div>
-		<div class= "nav right">
+		<div class= "nav right" ng-click="slideshowCtrl.changeImage(1)" ng-hide="slideshowCtrl.slideshowIndex == slideshowCtrl.images.length - 1">
 			<i class="fa fa-arrow-circle-right"></i>
 		</div>
-		<div class = "caption"></div>
+		<div class = "caption" ng-bind-html="slideshowCtrl.images[slideshowCtrl.slideshowIndex].caption + '<div class = \'credit\'>' + slideshowCtrl.images[slideshowCtrl.slideshowIndex].credit + '</div>'"></div>
 	</div>
 	
 </body>
